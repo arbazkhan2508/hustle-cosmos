@@ -47,7 +47,6 @@ export default function HustleOsmo() {
 
     return (
         <section className="relative w-full h-[800px] overflow-hidden bg-[#f8f8f8]">
-
             {cards.map((card, i) => {
 
                 let angle = (i / total) * TWO_PI * ANGLE_SPREAD + rotation + ROT_OFFSET;
