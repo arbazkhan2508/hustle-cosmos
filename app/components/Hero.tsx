@@ -37,7 +37,7 @@ export default function Hero() {
             <h1
                 style={{
                     fontSize: "90px",
-                    fontWeight: 600,
+                    fontWeight: 520,
                     display: "flex",
                     alignItems: "center",
                     gap: "32px",

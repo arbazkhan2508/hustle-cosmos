@@ -17,14 +17,20 @@ export default function HustleOsmo() {
     }, []);
 
     useEffect(() => {
-        const SPEED = -0.0005;
+        const speed = { value: -0.01 };
+
+        gsap.to(speed, {
+            value: -0.0005,
+            duration: 3,
+            ease: "power3.out",
+        });
 
         gsap.to({}, {
             duration: 1,
             repeat: -1,
             ease: "none",
             onUpdate: () => {
-                setRotation(r => ((r + SPEED) % TWO_PI + TWO_PI) % TWO_PI);
+                setRotation(r => ((r + speed?.value) % TWO_PI + TWO_PI) % TWO_PI);
             }
         });
     }, []);
@@ -46,8 +52,10 @@ export default function HustleOsmo() {
     const ARC = Math.PI * 1.35;
 
     return (
-        <section className="relative w-full h-[800px] overflow-hidden bg-[#f8f8f8]">
-            {cards.map((card, i) => {
+        <section className="relative w-full h-[800px] overflow-hidden">
+
+            {/* CARD CURVE  */}
+            {cards?.map((card, i) => {
 
                 let angle = (i / total) * TWO_PI * ANGLE_SPREAD + rotation + ROT_OFFSET;
 
@@ -77,6 +85,7 @@ export default function HustleOsmo() {
                         key={i}
                         style={{
                             position: "absolute",
+                            zIndex: 5,
                             width: CARD_W,
                             height: CARD_H,
                             opacity,
@@ -87,7 +96,7 @@ export default function HustleOsmo() {
                             willChange: "transform",
                         }}
                     >
-                        <div className="w-full p-1 h-full bg-[#201d1d] rounded-sm overflow-hidden shadow-[0_28px_60px_rgba(0,0,0,0.35)]">
+                        <div className="w-full p-2 h-full bg-[#201d1d] rounded-lg overflow-hidden shadow-[0_28px_60px_rgba(0,0,0,0.35)]">
                             <div className="w-full h-[85%] bg-neutral-100 overflow-hidden">
                                 <img
                                     src={card?.image}
@@ -103,6 +112,51 @@ export default function HustleOsmo() {
                 );
             })}
 
+            {/* DASHED CURVE  */}
+            {(() => {
+                const TICK_COUNT = 180;
+                const TICK_RADIUS = radius - 0;
+                const TICK_LENGTH = 10;
+                const TICK_OPACITY = 0.1;
+
+                const ticks = [];
+
+                const angleStart = ROT_OFFSET - ARC / 2 + 0.12;
+                const angleEnd = ROT_OFFSET + ARC / 2 - 0.12;
+
+                for (let i = 0; i < TICK_COUNT; i++) {
+                    const t = i / (TICK_COUNT - 1);
+                    const angle = angleStart + t * (angleEnd - angleStart);
+
+                    const x = centerX + Math.cos(angle) * TICK_RADIUS;
+                    const y = centerY + Math.sin(angle) * TICK_RADIUS;
+
+                    const rotateDeg = (angle * 180) / Math.PI + 90;
+
+                    ticks.push(
+                        <div
+                            key={`tick-${i}`}
+                            style={{
+                                position: "absolute",
+                                width: 1,
+                                height: TICK_LENGTH,
+                                background: `rgba(0,0,0,${TICK_OPACITY})`,
+                                transform: `
+                        translate(${x}px, ${y}px)
+                        rotate(${rotateDeg}deg)
+                    `,
+                                transformOrigin: "center top",
+                                zIndex: 1,
+                                borderRadius: "1px",
+                            }}
+                        />
+                    );
+                }
+
+                return ticks;
+            })()}
+
+            {/* BOTTOM TEXT   */}
             <div className="absolute bottom-[120px] w-full text-center px-6">
                 <h2 className="text-[40px] text-[#201d1d] leading-tight max-w-3xl mx-auto">
                     Osmo is an ever-growing platform with Webflow & HTML resources. Get exclusive access to the elements, techniques and code behind award-winning work.
