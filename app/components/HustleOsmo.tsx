@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import gsap from "gsap";
 import { cards } from "../utils";
+import BackgroundGuides from "./BackgroundGuides";
 
 const TWO_PI = Math.PI * 2;
 
@@ -53,6 +54,8 @@ export default function HustleOsmo() {
 
     return (
         <section className="relative w-full h-[800px] overflow-hidden">
+            {/* CENTERED LINE  */}
+            <BackgroundGuides />
 
             {/* CARD CURVE  */}
             {cards?.map((card, i) => {

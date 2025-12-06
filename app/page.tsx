@@ -5,9 +5,6 @@ import Hero from "./components/Hero";
 const HustleOsmo = dynamic(() => import("./components/HustleOsmo"), {
   ssr: false
 });
-const OsmoBackgroundGuides = dynamic(() => import("./components/OsmoBackgroundGuides"), {
-  ssr: false
-});
 const BackgroundGuides = dynamic(() => import("./components/BackgroundGuides"), {
   ssr: false
 });
@@ -16,12 +13,12 @@ const BackgroundGuides = dynamic(() => import("./components/BackgroundGuides"), 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      {/* <OsmoBackgroundGuides /> */}
       <BackgroundGuides />
 
       <Header />
       <Hero />
       <HustleOsmo />
+      <div className="w-full h-screen"></div>
     </main>
   );
 }

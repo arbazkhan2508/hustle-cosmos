@@ -1,10 +1,31 @@
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import gsap from "gsap";
 import InfiniteTicker from "./InfiniteTicker";
 
+
+const titleClass = "text-[12px] tracking-[1px] uppercase mb-4 opacity-70";
+
+const listClass = "text-[26px] leading-[42px]";
+
+const joinBtn = "mt-5 px-[22px] py-[10px] rounded-[6px] bg-white text-[#111] font-semibold cursor-pointer";
+
 export default function Header() {
+    const [showMiniIcon, setShowMiniIcon] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [showTicker, setShowTicker] = useState(true);
+
+    useEffect(() => {
+        const onScroll = () => {
+            if (window.scrollY > 40) {
+                setShowMiniIcon(true);
+            } else {
+                setShowMiniIcon(false);
+            }
+        };
+
+        window.addEventListener("scroll", onScroll);
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
 
     // Hide ticker on scroll
     useLayoutEffect(() => {
@@ -85,76 +106,48 @@ export default function Header() {
 
     return (
         <>
-            {/* Sticky Wrapper */}
-            <div
-                style={{
-                    position: "sticky",
-                    top: 0,
-                    zIndex: 2000,
-                    paddingTop: 12,
-                }}
-            >
-                {/* HEADER BOX */}
+            <div className="sticky top-0 z-50 pt-4">
                 <div
                     ref={cardRef}
-                    style={{
-                        margin: "0 auto",
-                        background: "#1d1d1d",
-                        color: "white",
-                        overflow: "visible",
-                        position: "relative",
-                        width: "50%",
-                        borderRadius: "8px",
-                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                    }}
+                    className="w-1/2 mx-auto text-white overflow-visible relative rounded-md shadow-2xl bg-[#1d1d1d]"
                 >
-                    {/* TOP NAV BAR */}
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            padding: "10px 16px",
-                        }}
-                    >
+                    <div className="flex items-center justify-between p-2">
                         <div
                             onClick={toggleMenu}
-                            style={{
-                                display: "flex",
-                                gap: "10px",
-                                alignItems: "center",
-                                cursor: "pointer",
-                            }}
+                            className="flex gap-2 items-center cursor-pointer ml-2"
                         >
-                            <span style={{ fontSize: "20px" }}>
+                            <span className="text-xl">
                                 {menuOpen ? "✕" : "☰"}
                             </span>
                             <span>Menu</span>
                         </div>
 
-                        <h1 style={{ fontSize: "22px", fontWeight: "bold" }}>HUSTLE</h1>
-
-                        <div style={{ display: "flex", gap: "8px" }}>
-                            <button
-                                style={{
-                                    background: "#2d2d2d",
-                                    color: "white",
-                                    padding: "6px 18px",
-                                    borderRadius: "20px",
-                                    border: "none",
-                                }}
+                        {/* <h1 className="font-bold text-lg">HUSTLE</h1> */}
+                        <div className="relative w-[60px] h-7 flex items-center justify-center ml-16">
+                            {/* HUSTLE TEXT */}
+                            <span
+                                className={`absolute transition-all duration-300 font-bold text-lg ${showMiniIcon ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
+                                    }`}
                             >
+                                HUSTLE
+                            </span>
+
+                            {/* MINI ICON ✦ */}
+                            <div
+                                className={`absolute transition-all duration-300 w-[22px] h-[22px] bg-[#6f43ff] 
+        rounded-md rotate-45 flex items-center justify-center text-white text-sm font-bold
+        ${showMiniIcon ? "opacity-100 scale-100" : "opacity-0 scale-50"}`}
+                            >
+                                ✦
+                            </div>
+                        </div>
+
+                        <div className="flex">
+                            <button className="bg-[#2d2d2d] text-white px-[18px] py-1.5 rounded-full border-none cursor-pointer">
                                 Login
                             </button>
-                            <button
-                                style={{
-                                    background: "#a4ff4f",
-                                    color: "#000",
-                                    padding: "6px 20px",
-                                    borderRadius: "4px",
-                                    border: "none",
-                                }}
-                            >
+
+                            <button className="bg-[#a4ff4f] text-black px-5 py-1.5 rounded-sm border-none cursor-pointer">
                                 Join
                             </button>
                         </div>
@@ -163,33 +156,13 @@ export default function Header() {
                     {/* EXPANDED MENU (ABSOLUTE BELOW HEADER) */}
                     <div
                         ref={menuWrapperRef}
-                        style={{
-                            visibility: "hidden",
-                            position: "absolute",
-                            left: 0,
-                            top: "100%",
-                            width: "100%",
-                            background: "#1d1d1d",
-                            overflow: "hidden",
-                            padding: "0 20px",
-                            zIndex: 1500,
-                            borderRadius: "0 0 8px 8px",
-                            borderTop: "1px solid #2d2d2d",
-                        }}
+                        className="invisible absolute left-0 top-full w-full bg-[#1d1d1d] overflow-hidden px-5 z-1500 rounded-b-lg border-t border-t-[#2d2d2d]"
                     >
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "2fr 1.5fr 2fr",
-                                gap: "40px",
-                                paddingTop: "24px",
-                                paddingBottom: "24px",
-                            }}
-                        >
+                        <div className="grid grid-cols-[2fr_1.5fr_2fr] gap-[40px] pt-6 pb-6">
                             {/* LEFT */}
                             <div className="menu-item">
-                                <h3 style={titleStyle}>OUR PRODUCTS</h3>
-                                <div style={listStyle}>
+                                <h3 className={titleClass}>OUR PRODUCTS</h3>
+                                <div className={listClass}>
                                     <div>The Vault</div>
                                     <div>Page Transition Course</div>
                                     <div>Icon Library</div>
@@ -199,8 +172,8 @@ export default function Header() {
 
                             {/* MIDDLE */}
                             <div className="menu-item">
-                                <h3 style={titleStyle}>EXPLORE</h3>
-                                <div style={listStyle}>
+                                <h3 className={titleClass}>EXPLORE</h3>
+                                <div className={listClass}>
                                     <div>Osmo Showcase</div>
                                     <div>Updates</div>
                                     <div>Pricing</div>
@@ -209,10 +182,10 @@ export default function Header() {
 
                             {/* RIGHT */}
                             <div className="menu-item">
-                                <h3 style={titleStyle}>FEATURED</h3>
-                                <div style={listStyle}>
+                                <h3 className={titleClass}>FEATURED</h3>
+                                <div className={listClass}>
                                     <div>We hit 1600 members!</div>
-                                    <button style={joinBtn}>Join them</button>
+                                    <button className={joinBtn}>Join them</button>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +194,7 @@ export default function Header() {
 
                 {/* TICKER (Only when closed & top) */}
                 {!menuOpen && showTicker && (
-                    <div style={{ width: "50%", margin: "4px auto 0" }}>
+                    <div className="w-1/2 mt-1 mx-auto">
                         <InfiniteTicker text="EXPLORE THE OSMO SHOWCASE" />
                     </div>
                 )}
@@ -229,28 +202,3 @@ export default function Header() {
         </>
     );
 }
-
-/* TEXT STYLES */
-const titleStyle = {
-    fontSize: "12px",
-    letterSpacing: "1px",
-    textTransform: "uppercase" as const,
-    marginBottom: "16px",
-    opacity: 0.7,
-};
-
-const listStyle = {
-    fontSize: "26px",
-    lineHeight: "42px",
-};
-
-const joinBtn = {
-    marginTop: "20px",
-    padding: "10px 22px",
-    borderRadius: "6px",
-    border: "none",
-    background: "white",
-    color: "#111",
-    fontWeight: 600,
-    cursor: "pointer",
-};

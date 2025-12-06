@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
@@ -22,94 +23,21 @@ export default function Hero() {
     }, []);
 
     return (
-        <section
-            style={{
-                width: "100%",
-                paddingTop: "60px",
-                paddingBottom: "20px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-            }}
-        >
-            {/* MAIN HEADING */}
-            <h1
-                style={{
-                    fontSize: "90px",
-                    fontWeight: 520,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "32px",
-                    color: "#201d1d",
-                }}
-            >
+        <section className="w-full pt-20 pb-10 flex flex-col items-center text-center">
+            <h1 className="text-[90px] font-semibold flex items-center gap-8 text-[#201d1d]">
                 Dev Toolkit
+
                 <div
                     ref={iconRef}
-                    style={{
-                        width: "40px",
-                        height: "40px",
-                        background: "#6f43ff",
-                        borderRadius: "10px",
-                        transform: "rotate(45deg)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "white",
-                        fontSize: "32px",
-                        fontWeight: 700,
-                    }}
+                    className="w-10 h-10 bg-[#6f43ff] rounded-lg rotate-45 
+                               flex items-center justify-center 
+                               text-white text-3xl font-bold ml-10"
                 >
                     ✦
                 </div>
+
                 Built to Flex
             </h1>
-
-            {/* SUB TEXT */}
-            <div
-                style={{
-                    marginTop: "30px",
-                    fontSize: "18px",
-                    color: "#333",
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    gap: "10px",
-                    maxWidth: "600px",
-                }}
-            >
-                <span>Platform packed with</span>
-
-                <Tag>Webflow</Tag>
-                <span>&</span>
-                <Tag>HTML</Tag>
-
-                <span>resources,</span>
-                <Tag>icons</Tag>
-                <Tag>easings</Tag>
-
-                <span>and a page transition</span>
-
-                <Tag>course</Tag>
-            </div>
         </section>
-    );
-}
-
-function Tag({ children }: { children: React.ReactNode }) {
-    return (
-        <span
-            style={{
-                padding: "4px 14px",
-                background: "#eaeaea",
-                borderRadius: "8px",
-                fontSize: "18px",
-                fontWeight: 500,
-                color: "#333",
-            }}
-        >
-            {children}
-        </span>
     );
 }
